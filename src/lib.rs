@@ -15,15 +15,15 @@ mod version {
 pub struct BussHeader {
     /// Set to 0x00042069. The server/client should check if the first 4 bytes matches these sequence. Otherwise should cancel the request and respond with an error.
     /// If you see this, we are bussin.
-    magic_number: u32,
+    pub magic_number: u32,
     /// Bussin protocol version number. e.g. if currently at version 69.1 it will be the 69 part
-    version_major: u8,
+    pub version_major: u8,
     /// Bussing protocol version number minor. e.g. if currently at version 69.1 it will be the 1 part
-    version_minor: u8,
+    pub version_minor: u8,
     /// Action the client wants executed or what response code the server replied with.
-    action: BussAction,
+    pub action: BussAction,
     /// Not used for now
-    padding: u8,
+    pub padding: u8,
 }
 
 /// Trait to facilitate conversion of various bussin types to raw bytes

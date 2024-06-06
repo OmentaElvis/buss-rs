@@ -103,6 +103,10 @@ impl BodyLength {
     pub fn new(size: usize) -> Self {
         BodyLength { length: size }
     }
+    /// Returns the length of body
+    pub fn get_length(&self) -> usize {
+        self.length
+    }
 }
 
 impl BaseSettings for BodyLength {

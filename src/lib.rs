@@ -22,8 +22,8 @@ pub struct BussHeader {
     pub version_minor: u8,
     /// Action the client wants executed or what response code the server replied with.
     pub action: BussAction,
-    /// Not used for now
-    pub padding: u8,
+    /// Flags that describe the binary content of the protocol
+    pub flags: u8,
 }
 
 /// Trait to facilitate conversion of various bussin types to raw bytes
@@ -46,7 +46,7 @@ impl BussHeader {
             version_major: version::MAJOR,
             version_minor: version::MINOR,
             action: BussAction::Noop,
-            padding: 0,
+            flags: 0,
         }
     }
     /// Sets the action to be performed
@@ -68,7 +68,7 @@ impl ToBytes for BussHeader {
         bytes.push(self.version_major);
         bytes.push(self.version_minor);
         bytes.push(self.action as u8);
-        bytes.push(self.padding);
+        bytes.push(self.flags);
         bytes
     }
 }
@@ -80,14 +80,14 @@ impl FromBytes<&[u8; 8]> for BussHeader {
         let version_minor = bytes[5];
         let action_number = bytes[6];
         let action: BussAction = action_number.try_into().unwrap();
-        let padding = bytes[7];
+        let flags = bytes[7];
 
         BussHeader {
             magic_number,
             version_major,
             version_minor,
             action,
-            padding,
+            flags,
         }
     }
 }

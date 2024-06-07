@@ -22,3 +22,8 @@ impl ToBytes for BussPath {
         bytes
     }
 }
+
+pub mod buss_flags {
+    /// Treat strings as utf16
+    pub const UTF16: u8 = 0b00000001;
+}

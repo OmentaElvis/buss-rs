@@ -71,11 +71,18 @@ impl Settings {
     pub fn add(&mut self, entry: Box<dyn BaseSettings>) {
         self.entries.push(entry);
     }
+
+    pub fn iter(&self) -> std::slice::Iter<'_, Box<dyn BaseSettings>> {
+        self.entries.iter()
+    }
 }
 
 impl ToBytes for Settings {
     fn to_bytes(self) -> Vec<u8> {
         let mut bytes = Vec::new();
+        // Write length
+        let length = self.entries.len() as u16;
+        bytes.extend(length.to_be_bytes());
         for s in self.entries {
             bytes.push(s.get_type() as u8);
             bytes.append(&mut s.get_body());

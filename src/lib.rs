@@ -4,6 +4,7 @@ pub mod types;
 
 pub use actions::BussAction;
 pub use settings::BussSettings;
+pub use types::buss_flags;
 
 /// Version of bussin binary protocol
 mod version {
@@ -100,7 +101,7 @@ mod tests {
     };
 
     use crate::{
-        settings::{BodyLength, Settings},
+        settings::{BodyLength, Host, Settings},
         types::BussPath,
         BussAction, BussHeader, ToBytes,
     };
@@ -109,8 +110,11 @@ mod tests {
     fn skeleton() -> io::Result<()> {
         let mut header = BussHeader::new();
         header.set_action(BussAction::Read);
+        let content = "Hello from the rizzler!";
+
         let mut settings = Settings::new();
-        settings.add(Box::new(BodyLength::new(25)));
+        settings.add(Box::new(BodyLength::new(content.len())));
+        settings.add(Box::new(Host::new("buss.rizz")));
 
         let path = BussPath::new("/");
 
@@ -118,6 +122,9 @@ mod tests {
         let _ = file.write(&header.to_bytes())?;
         let _ = file.write(&path.to_bytes())?;
         let _ = file.write(&settings.to_bytes())?;
+
+        let _ = file.write(content.as_bytes())?;
+
         Ok(())
     }
 }

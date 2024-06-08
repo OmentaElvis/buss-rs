@@ -124,3 +124,29 @@ impl BaseSettings for BodyLength {
         self.length.to_be_bytes().to_vec()
     }
 }
+
+/// Host
+pub struct Host {
+    /// The host domain name
+    host: String,
+}
+
+impl Host {
+    pub fn new(host: &str) -> Self {
+        Host {
+            host: String::from(host),
+        }
+    }
+}
+impl BaseSettings for Host {
+    fn get_type(&self) -> BussSettings {
+        BussSettings::Host
+    }
+    // TODO This should consume self to be efficient
+    fn get_body(&self) -> Vec<u8> {
+        let mut bytes = Vec::new();
+        bytes.extend(self.host.len().to_be_bytes());
+        bytes.append(&mut self.host.clone().into_bytes());
+        bytes
+    }
+}

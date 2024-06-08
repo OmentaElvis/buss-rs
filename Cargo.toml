@@ -3,5 +3,8 @@ name = "buss-protocol"
 version = "0.1.0"
 edition = "2021"
 description = "Bussin binary protocol"
+license-file = "LICENSE"
+homepage = "https://github.com/OmentaElvis/buss-rs"
+
 
 [dependencies]
